@@ -27,4 +27,14 @@ public class OrderController {
         return mv;
     }
 
+    @RequestMapping("/selectById")
+    public ModelAndView selectById(@RequestParam("id") String id){
+        ModelAndView mv=new ModelAndView();
+        Order order = orderService.selectById(id);
+        mv.addObject("order",order);
+        mv.setViewName("order_show");
+        return mv;
+    }
+
+
 }

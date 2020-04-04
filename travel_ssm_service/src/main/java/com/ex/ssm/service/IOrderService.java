@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface IOrderService {
     List<Order> findAll(Integer page,Integer size);
+
+    Order selectById(String id);
 }

@@ -3,7 +3,6 @@ package com.ex.ssm.dao;
 import com.ex.ssm.domain.Product;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 

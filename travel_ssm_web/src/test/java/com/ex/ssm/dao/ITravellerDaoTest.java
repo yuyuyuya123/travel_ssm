@@ -1,7 +1,6 @@
-package com.ex.ssm.service;
+package com.ex.ssm.dao;
 
-import com.ex.ssm.domain.Order;
-import org.junit.Ignore;
+import com.ex.ssm.domain.Traveller;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,23 +13,16 @@ import java.util.List;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath*:applicationContext.xml","classpath*:spring-mvc.xml"})
 @WebAppConfiguration(value = "src/main/webapp")
-public class OrderServiceImplTest {
-
+public class ITravellerDaoTest {
     @Autowired
-    IOrderService orderService;
+    ITravellerDao travellerDao;
 
     @Test
-    @Ignore
-    public void testFindAll() throws Exception{
-        List<Order> all = orderService.findAll(1,4);
-        System.out.println(all);
+    public void testSelectById(){
+        System.out.println("》》》》》"+travellerDao);
+        List<Traveller> travellers = travellerDao.selectById("0E7231DC797C486290E8713CA3C6ECCC");
+        for(Traveller val:travellers){
+            System.out.println(val);
+        }
     }
-
-    @Test
-    public void testSelectById() throws Exception{
-        Order order = orderService.selectById("0E7231DC797C486290E8713CA3C6ECCC");
-        System.out.println(order);
-    }
-
-
 }
