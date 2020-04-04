@@ -114,7 +114,7 @@
                                     <td>${order.orderTimeStr}</td>
                                     <td>${order.orderStatusStr}</td>
                                     <td>
-                                        <button type="button" class="btn bg-olive btn-xs" onclick='location.href="all-order-manage-edit.html"'>详情</button>
+                                        <button type="button" class="btn bg-olive btn-xs" onclick='location.href="${pageContext.request.contextPath}/order/selectById.do?id=${order.id}"'>详情</button>
                                         <button type="button" class="btn bg-olive btn-xs" onclick='location.href="all-order-manage-edit.html"'>编辑</button>
                                     </td>
                                 </tr>
@@ -150,10 +150,8 @@
                         <button type="button" class="btn btn-sm btn-default" onclick="location.href='${pageContext.request.contextPath}/order/findAll.do?page=${pageInfo.pages}&size=${pageInfo.pageSize}'">尾页</button>
                     </div>
                 </div>
-                </div>
-                <!-- /.card-footer -->
             </div>
-
+            <!-- /.card-footer -->
         </section>
     </div>
     <!-- /.content-wrapper -->
