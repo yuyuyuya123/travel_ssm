@@ -24,17 +24,15 @@
         />
         <!-- 关闭CSRF,默认是开启的 -->
         <security:csrf disabled="true" />
+        <!-- 退出 -->
+        <security:logout invalidate-session="true" logout-url="/logout.do" logout-success-url="/login.jsp" />
     </security:http>
 
     <!--配置用户-->
     <security:authentication-manager>
-        <security:authentication-provider user-service-ref="userService">
-            <!--配置加密的方式-->
-            <!--<security:password-encoder ref="passwordEncoder"/>-->
-        </security:authentication-provider>
+        <security:authentication-provider user-service-ref="userService"/>
     </security:authentication-manager>
 
-    <!-- 配置加密类 -->
-    <!--<bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>-->
+
 
 </beans>

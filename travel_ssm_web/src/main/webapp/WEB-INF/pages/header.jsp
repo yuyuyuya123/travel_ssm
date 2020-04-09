@@ -28,11 +28,13 @@
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-            <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-                <i class="fas fa-th-large"></i>
-            </a>
+        <li class="nav-item dropdown">
+            <div class="nav-link dropdown-toggle" data-toggle="dropdown">账号管理</div>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="${pageContext.request.contextPath}/logout.do">注销</a>
+            </div>
         </li>
     </ul>
+</nav>
 </nav>
 <!-- /.navbar -->
