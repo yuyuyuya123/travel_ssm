@@ -59,7 +59,7 @@
         </div>
         <!-- Main content -->
         <section class="content">
-            <div class="card card-warning">
+            <div class="card card-info">
                 <!-- card-header -->
                 <div class="card-header">
                     <h3 class="card-title">产品信息</h3>
