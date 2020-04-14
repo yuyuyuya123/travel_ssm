@@ -9,10 +9,20 @@
   <welcome-file-list>
     <welcome-file>temp.jsp</welcome-file>
   </welcome-file-list>
+  
+
+  <error-page>
+    <error-code>404</error-code>
+    <location>/WEB-INF/error/404.jsp</location>
+  </error-page>
 
   <!--配置spring-->
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+  <!-- 为了获取request对象 -->
+  <listener>
+    <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
   </listener>
 
   <context-param>

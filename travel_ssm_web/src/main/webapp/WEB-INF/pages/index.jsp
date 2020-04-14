@@ -1,10 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c"  %>
+<%@taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 	<html>
 	<head>
 	  <meta charset="utf-8">
 	  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-	  <title>AdminLTE 3 | Dashboard</title>
+	  <title>主页</title>
 	  <!-- Tell the browser to be responsive to screen width -->
 	  <meta name="viewport" content="width=device-width, initial-scale=1">
 	  <!-- Font Awesome -->

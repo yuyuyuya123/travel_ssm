@@ -1,11 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c"  %>
-<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <html>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>角色管理</title>
+    <title>error 404</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Font Awesome -->
@@ -33,100 +31,48 @@
 <div class="wrapper">
 
     <!-- Navbar -->
-    <jsp:include page="header.jsp"></jsp:include>
+    <jsp:include page="../pages/header.jsp"></jsp:include>
     <!-- /.navbar -->
 
     <!-- Main Sidebar Container -->
-    <jsp:include page="aside.jsp"></jsp:include>
+    <jsp:include page="../pages/aside.jsp"></jsp:include>
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        <div class="content-header">
+        <!-- page header -->
+        <section class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0 text-dark">角色管理</h1>
-                    </div><!-- /.col -->
+                        <h1>404 Error Page</h1>
+                    </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="index.jsp">首页</a></li>
-                            <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/role/findAll.do">角色管理</a></li>
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item active">404 Error Page</li>
                         </ol>
-                    </div><!-- /.col -->
-                </div><!-- /.row -->
+                    </div>
+                </div>
             </div><!-- /.container-fluid -->
-        </div>
-        <!-- Main content -->
+        </section>
+        <!-- page content -->
         <section class="content">
-            <div class="card">
-                <!-- card header -->
-                <div class="card-header border-transparent">
-                    <h3 class="card-title">列表</h3>
-                    <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                            <i class="fas fa-minus"></i>
-                        </button>
-                        <button type="button" class="btn btn-tool" data-card-widget="remove">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
+            <div class="error-page">
+                <h2 class="headline text-danger">404</h2>
+                <div class="error-content">
+                    <h3><i class="fas fa-exclamation-triangle text-danger"></i> 发生错误！</h3>
+                    <p>
+                        你可以<a href="${pageContext.request.contextPath}">返回到 主页</a>
+                    </p>
                 </div>
-                <!-- /.card-header -->
-                <!-- 工具栏 -->
-                <security:authorize access="hasRole('ADMIN')">
-                <div>
-                    <div class="form-group form-inline">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default" title= "新建" onclick="window.location.href='${pageContext.request.contextPath}/role/toPage_RoleAdd.do'">
-                                <i class="fa fa-file-o"></i> 新建
-                            </button>
-                            <button type="button" class="btn btn-default" title= "刷新" onclick="window.location.reload()">
-                                <i class="fa fa-refresh"></i> 刷新
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                </security:authorize>
-                <!--工具栏/-->
-                <div class="card-body p-0">
-                    <div class="table-responsive">
-                        <table class="table m-0">
-                            <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>角色名</th>
-                                <th>描述</th>
-                                <th>操作</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <c:forEach items="${roleList}" var="role">
-                                <tr>
-                                    <td>${role.id}</td>
-                                    <td>${role.roleName}</td>
-                                    <td>${role.roleDesc}</td>
-                                    <td>
-                                        <button type="button" class="btn bg-olive btn-xs" onclick='location.href="${pageContext.request.contextPath}/role/selectById.do?id=${role.id}"'>详情</button>
-                                        <security:authorize access="hasRole('ADMIN')">
-                                            <button type="button" class="btn bg-olive btn-xs" onclick='location.href="${pageContext.request.contextPath}/role/deleteOneRole.do?id=${role.id}"'>删除角色</button>
-                                            <button type="button" class="btn bg-olive btn-xs" onclick='location.href="${pageContext.request.contextPath}/role/showRemainPermission.do?id=${role.id}"'>添加权限</button>
-                                        </security:authorize>
-                                    </td>
-                                </tr>
-                            </c:forEach>
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- /.table-responsive -->
-                </div>
-                <!-- /.card-body -->
-
+            </div>
+            <!-- /.error-page -->
         </section>
     </div>
     <!-- /.content-wrapper -->
 
     <!--footer--!>
-	  <jsp:include page="footer.jsp"></jsp:include>
+	  <jsp:include page="../pages/footer.jsp"></jsp:include>
 
 	  <!-- Control Sidebar -->
     <aside class="control-sidebar control-sidebar-dark">

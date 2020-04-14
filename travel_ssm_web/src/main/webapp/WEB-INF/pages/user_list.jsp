@@ -1,10 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c"  %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <html>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>订单详情</title>
+    <title>用户管理</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Font Awesome -->
@@ -44,12 +45,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0 text-dark">订单管理</h1>
+                        <h1 class="m-0 text-dark">用户管理</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/index/toPage_Index.do">首页</a></li>
-                            <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/order/findAll.do?page=1&size=4">订单管理</a></li>
+                            <li class="breadcrumb-item"><a href="index.jsp">首页</a></li>
+                            <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/user/findAll.do">用户管理</a></li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -57,124 +58,82 @@
         </div>
         <!-- Main content -->
         <section class="content">
-            <div class="container-fluid">
-                <!-- order -->
-                <div class="card card-info">
-                    <!-- card header -->
-                    <div class="card-header border-transparent">
-                        <h3 class="card-title">订单信息</h3>
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                <i class="fas fa-minus"></i>
+            <div class="card">
+                <!-- card header -->
+                <div class="card-header border-transparent">
+                    <h3 class="card-title">列表</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- /.card-header -->
+                <!-- 工具栏 -->
+                <security:authorize access="hasRole('ADMIN')">
+                <div>
+                    <div class="form-group form-inline">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default" title= "新建" onclick="window.location.href='${pageContext.request.contextPath}/user/toPage_UserAdd.do'">
+                                <i class="fa fa-file-o"></i> 新建
                             </button>
-                            <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                <i class="fas fa-times"></i>
+                            <button type="button" class="btn btn-default" title= "刷新" onclick="window.location.reload()">
+                                <i class="fa fa-refresh"></i> 刷新
                             </button>
                         </div>
                     </div>
-                    <!-- card-body -->
-                    <table class="table table-sm table-bordered">
-                        <tr>
-                            <td class="bg-light">订单编号</td>
-                            <td>${order.orderNum}</td>
-                            <td class="bg-light">下单时间</td>
-                            <td>${order.orderTimeStr}</td>
-                        </tr>
-                        <tr>
-                            <td class="bg-light">路线名称</td>
-                            <td>${order.product.productName}</td>
-                            <td class="bg-light">出发城市</td>
-                            <td>${order.product.cityName}</td>
-                        </tr>
-                        <tr>
-                            <td class="bg-light">出发时间</td>
-                            <td>${order.product.departureTimeStr}</td>
-                            <td class="bg-light">出游人数</td>
-                            <td>${order.peopleCount}</td>
-                        </tr>
-                        <tr>
-                            <td class="bg-light">其他信息</td>
-                            <td>${order.orderDesc}</td>
-                        </tr>
-                    </table>
                 </div>
-            </div>
-            <!-- travellers -->
-            <div class="card card-info">
-                <!-- card header -->
-                <div class="card-header border-transparent">
-                    <h3 class="card-title">旅客信息</h3>
-                    <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                            <i class="fas fa-minus"></i>
-                        </button>
-                        <button type="button" class="btn btn-tool" data-card-widget="remove">
-                            <i class="fas fa-times"></i>
-                        </button>
+                </security:authorize>
+                <!--工具栏/-->
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table m-0">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>用户名</th>
+                                <th>邮箱</th>
+                                <th>联系电话</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <c:forEach items="${userList}" var="user">
+                                <tr>
+                                    <td>${user.id}</td>
+                                    <td>${user.username}</td>
+                                    <td>${user.email}</td>
+                                    <td>${user.phoneNum}</td>
+                                    <td>${user.statusStr}</td>
+                                    <td>
+                                    <td>
+                                        <button type="button" class="btn bg-olive btn-xs" onclick='location.href="${pageContext.request.contextPath}/user/selectById.do?id=${user.id}"'>详情</button>
+                                        <security:authorize access="hasRole('ADMIN')">
+                                            <button type="button" class="btn bg-olive btn-xs" onclick='location.href="${pageContext.request.contextPath}/user/deleteOneUser.do?id=${user.id}"'>删除用户</button>
+                                            <button type="button" class="btn bg-olive btn-xs" onclick='location.href="${pageContext.request.contextPath}/user/showRemainRole.do?id=${user.id}"'>添加角色</button>
+                                        </security:authorize>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer">
+                    <div class="mt-3 d-inline-block" >
                     </div>
                 </div>
-                <!-- card-body -->
-                <table class="table table-bordered">
-                    <thead>
-                    <tr>
-                        <th>人群</th>
-                        <th>姓名</th>
-                        <th>性别</th>
-                        <th>手机号码</th>
-                        <th>证件类型</th>
-                        <th>证件号码</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach items="${order.travellers}" var="traveller">
-                        <tr>
-                            <td>${traveller.travellerTypeStr}</td>
-                            <td>${traveller.name}</td>
-                            <td>${traveller.sex}</td>
-                            <td>${traveller.phoneNum}</td>
-                            <td>${traveller.credentialsTypeStr}</td>
-                            <td>${traveller.credentialsNum}</td>
-                        </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
             </div>
-            <!-- member -->
-            <div class="card card-info">
-                <!-- card header -->
-                <div class="card-header border-transparent">
-                    <h3 class="card-title">会员信息</h3>
-                    <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                            <i class="fas fa-minus"></i>
-                        </button>
-                        <button type="button" class="btn btn-tool" data-card-widget="remove">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                </div>
-                <table class="table table-sm table-bordered">
-                    <thead>
-                    <tr>
-                        <th>会员</th>
-                        <th>联系人</th>
-                        <th>手机号</th>
-                        <th>邮箱</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>${order.member.nickname}</td>
-                        <td>${order.member.name}</td>
-                        <td>${order.member.phoneNum}</td>
-                        <td>${order.member.email}</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-    </section>
-</div>
-<!-- /.content-wrapper -->
+            <!-- /.card-footer -->
+        </section>
+    </div>
+    <!-- /.content-wrapper -->
 
     <!--footer--!>
 	  <jsp:include page="footer.jsp"></jsp:include>

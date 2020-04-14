@@ -1,10 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c"  %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <html>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>AdminLTE 3 | Dashboard</title>
+    <title>订单管理</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Font Awesome -->
@@ -49,7 +50,7 @@
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="index.jsp">首页</a></li>
-                            <li class="breadcrumb-item"><a href="#">订单管理</a></li>
+                            <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/order/findAll.do?page=1&size=4">订单管理</a></li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -72,55 +73,57 @@
                 </div>
                 <!-- /.card-header -->
                 <!-- 工具栏 -->
+                <security:authorize access="hasRole('ADMIN')">
                 <div>
                     <div class="form-group form-inline">
                         <div class="btn-group">
-                            <button type="button" class="btn btn-default" title= "新建" onclick="window.location.href='${pageContext.request.contextPath}/product/toPage_ProductAdd.do'">
-                                <i class="fa fa-file-o"></i> 新建
-                            </button>
-                            <button type="button" class="btn btn-default" title= "删除">
-                                <i class="fa"></i> 删除
-                            </button>
-                            <button type="button" class="btn btn-default" title= "刷新">
+                            <button type="button" class="btn btn-default" title= "刷新" onclick="window.location.reload()">
                                 <i class="fa fa-refresh"></i> 刷新
                             </button>
                         </div>
                     </div>
                 </div>
+                </security:authorize>
                 <!--工具栏/-->
                 <div class="card-body p-0">
                     <div class="table-responsive">
-                        <table class="table m-0">
-                            <thead>
-                            <tr>
-                                <th></th>
-                                <th>ID</th>
-                                <th>订单编号</th>
-                                <th>产品名称</th>
-                                <th>金额</th>
-                                <th>下单时间</th>
-                                <th>订单状态</th>
-                                <th>操作</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <c:forEach items="${pageInfo.list}" var="order">
+                        <form action="${pageContext.request.contextPath}/order/deleteManyOrders.do" method="post">
+                            <table class="table m-0">
+                                <thead>
                                 <tr>
-                                    <td><input name="ids" type="checkbox"></td>
-                                    <td>${order.id}</td>
-                                    <td>${order.orderNum}</td>
-                                    <td>${order.product.productName}</td>
-                                    <td>${order.product.productPrice}</td>
-                                    <td>${order.orderTimeStr}</td>
-                                    <td>${order.orderStatusStr}</td>
-                                    <td>
-                                        <button type="button" class="btn bg-olive btn-xs" onclick='location.href="${pageContext.request.contextPath}/order/selectById.do?id=${order.id}"'>详情</button>
-                                        <button type="button" class="btn bg-olive btn-xs" onclick='location.href="all-order-manage-edit.html"'>编辑</button>
-                                    </td>
+                                    <th tyle="padding-right: 0px"><input type="checkbox" name="checkAll"/></th>
+                                    <th>ID</th>
+                                    <th>订单编号</th>
+                                    <th>产品名称</th>
+                                    <th>金额</th>
+                                    <th>下单时间</th>
+                                    <th>订单状态</th>
+                                    <th>操作</th>
                                 </tr>
-                            </c:forEach>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                <c:forEach items="${pageInfo.list}" var="order">
+                                    <tr>
+                                        <td><input type="checkbox" name="checkItemTd" value="${order.id}"/></td>
+                                        <td>${order.id}</td>
+                                        <td>${order.orderNum}</td>
+                                        <td>${order.product.productName}</td>
+                                        <td>${order.product.productPrice}</td>
+                                        <td>${order.orderTimeStr}</td>
+                                        <td>${order.orderStatusStr}</td>
+                                        <td>
+                                            <button type="button" class="btn bg-olive btn-xs" onclick='location.href="${pageContext.request.contextPath}/order/selectById.do?id=${order.id}"'>详情</button>
+                                            <button type="button" class="btn bg-olive btn-xs" onclick='location.href="${pageContext.request.contextPath}/order/toPage_OrderEdit.do?id=${order.id}"'>添加备注</button>
+                                            <button type="button" class="btn bg-olive btn-xs" onclick='location.href="${pageContext.request.contextPath}/order/deleteOneOrder.do?id=${order.id}"'>删除订单</button>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                                </tbody>
+                            </table>
+                            <div class="card-footer clearfix">
+                                <input type="submit" value="删除" class="btn btn-sm btn-info float-left"/>
+                            </div>
+                        </form>
                     </div>
                     <!-- /.table-responsive -->
                 </div>
@@ -131,6 +134,7 @@
                         <div class="form-group d-inline">
                             <select class="rounded-sm bg-light" style="max-width: 200px;" onchange="changePageSize()" id="changePageSize">
                                 <option>--请选择条数--</option>
+                                <option selected>${pageInfo.pageSize}</option>
                                 <option value="3">3</option>
                                 <option value="4">4</option>
                                 <option value="5">5</option>
@@ -203,6 +207,7 @@
 <script src="${pageContext.request.contextPath}/js/demo.js"></script>
 
 <script>
+    //分页：根据选择“每页数据条数”显示数据
     function changePageSize() {
         //获取下拉列表的值
         var size=$("#changePageSize").val();

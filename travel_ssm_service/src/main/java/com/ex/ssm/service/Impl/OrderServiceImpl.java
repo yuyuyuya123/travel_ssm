@@ -26,4 +26,24 @@ public class OrderServiceImpl implements IOrderService{
         Order order = orderDao.selectById(id);
         return order;
     }
+
+    @Override
+    public void addOrderDesc(String id, String orderDesc) {
+        orderDao.addOrderDesc(id,orderDesc);
+    }
+
+    @Override
+    public void deleteOneOrder(String id) {
+        //先删除中间表order_traveller中 该order的数据
+        orderDao.deleteFromOrderTraveller(id);
+        //再删除orders表中 该order的数据
+        orderDao.delete(id);
+    }
+
+    @Override
+    public void deleteManyOrders(String[] orderIds) {
+        for (String orderId:orderIds) {
+            deleteOneOrder(orderId);
+        }
+    }
 }

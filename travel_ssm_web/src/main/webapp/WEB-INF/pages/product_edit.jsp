@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>订单详情</title>
+    <title>产品修改</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Font Awesome -->
@@ -44,12 +44,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0 text-dark">订单管理</h1>
+                        <h1 class="m-0 text-dark">产品管理</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/index/toPage_Index.do">首页</a></li>
-                            <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/order/findAll.do?page=1&size=4">订单管理</a></li>
+                            <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/product/findAll.do">产品管理</a></li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -58,11 +58,10 @@
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
-                <!-- order -->
                 <div class="card card-info">
                     <!-- card header -->
                     <div class="card-header border-transparent">
-                        <h3 class="card-title">订单信息</h3>
+                        <h3 class="card-title">产品信息</h3>
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                 <i class="fas fa-minus"></i>
@@ -73,108 +72,57 @@
                         </div>
                     </div>
                     <!-- card-body -->
-                    <table class="table table-sm table-bordered">
-                        <tr>
-                            <td class="bg-light">订单编号</td>
-                            <td>${order.orderNum}</td>
-                            <td class="bg-light">下单时间</td>
-                            <td>${order.orderTimeStr}</td>
-                        </tr>
-                        <tr>
-                            <td class="bg-light">路线名称</td>
-                            <td>${order.product.productName}</td>
-                            <td class="bg-light">出发城市</td>
-                            <td>${order.product.cityName}</td>
-                        </tr>
-                        <tr>
-                            <td class="bg-light">出发时间</td>
-                            <td>${order.product.departureTimeStr}</td>
-                            <td class="bg-light">出游人数</td>
-                            <td>${order.peopleCount}</td>
-                        </tr>
-                        <tr>
-                            <td class="bg-light">其他信息</td>
-                            <td>${order.orderDesc}</td>
-                        </tr>
-                    </table>
+                    <form role="form" action="${pageContext.request.contextPath}/product/updateProductInfo.do">
+                        <table class="table table-sm table-bordered">
+                            <tr>
+                                <td class="bg-light">ID</td>
+                                <td><input type="text" class="bg-light"  readonly="readonly" name="id" value="${product.id}"/></td>
+                                <td class="bg-light">产品编号</td>
+                                <td><input type="text" class="bg-light"  readonly="readonly" name="productNum" value="${product.productNum}"/></td>
+                            </tr>
+                            <tr>
+                                <td class="bg-light">产品名称</td>
+                                <td><input type="text" name="productName" value="${product.productName}"/></td>
+                                <td class="bg-light">出发城市</td>
+                                <td><input type="text" name="cityName" value="${product.cityName}"/></td>
+                            </tr>
+                            <tr>
+                                <td class="bg-light">出发时间</td>
+                                <td>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="far fa-clock"></i></span>
+                                        </div>
+                                        <input type="text" class="float-right" id="timepicker" name="departureTime" value="${product.departureTimeStr}">
+                                    </div>
+                                </td>
+                                <td class="bg-light">产品价格</td>
+                                <td><input type="text" name="productPrice" value="${product.productPrice}"/></td>
+                            </tr>
+                            <tr>
+                                <td class="bg-light">产品状态</td>
+                                <td>
+                                    <select class="form-control select2 select2-danger select2-hidden-accessible" data-dropdown-css-class="select2-danger" style="width: 100%;" data-select2-id="12" tabindex="-1" aria-hidden="true" name="productStatus">
+                                        <option value="0" selected="selected" data-select2-id="14">关闭</option>
+                                        <option value="1" data-select2-id="56">开启</option>
+                                    </select>
+                                </td>
+                                <td>产品描述</td>
+                                <td> <textarea class="form-control" rows="3" placeholder="${product.productDesc}" name="productDesc"></textarea></td>
+
+                            </tr>
+                        </table>
+                        <div class="card-footer text-center">
+                            <button type="submit" class="btn btn-success mr-2">保存</button>
+                            <button type="button" class="btn btn-secondary ml-2" onclick="window.history.go(-1)">返回</button>
+                        </div>
+                    </form>
                 </div>
             </div>
-            <!-- travellers -->
-            <div class="card card-info">
-                <!-- card header -->
-                <div class="card-header border-transparent">
-                    <h3 class="card-title">旅客信息</h3>
-                    <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                            <i class="fas fa-minus"></i>
-                        </button>
-                        <button type="button" class="btn btn-tool" data-card-widget="remove">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                </div>
-                <!-- card-body -->
-                <table class="table table-bordered">
-                    <thead>
-                    <tr>
-                        <th>人群</th>
-                        <th>姓名</th>
-                        <th>性别</th>
-                        <th>手机号码</th>
-                        <th>证件类型</th>
-                        <th>证件号码</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach items="${order.travellers}" var="traveller">
-                        <tr>
-                            <td>${traveller.travellerTypeStr}</td>
-                            <td>${traveller.name}</td>
-                            <td>${traveller.sex}</td>
-                            <td>${traveller.phoneNum}</td>
-                            <td>${traveller.credentialsTypeStr}</td>
-                            <td>${traveller.credentialsNum}</td>
-                        </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
-            </div>
-            <!-- member -->
-            <div class="card card-info">
-                <!-- card header -->
-                <div class="card-header border-transparent">
-                    <h3 class="card-title">会员信息</h3>
-                    <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                            <i class="fas fa-minus"></i>
-                        </button>
-                        <button type="button" class="btn btn-tool" data-card-widget="remove">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                </div>
-                <table class="table table-sm table-bordered">
-                    <thead>
-                    <tr>
-                        <th>会员</th>
-                        <th>联系人</th>
-                        <th>手机号</th>
-                        <th>邮箱</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>${order.member.nickname}</td>
-                        <td>${order.member.name}</td>
-                        <td>${order.member.phoneNum}</td>
-                        <td>${order.member.email}</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-    </section>
-</div>
-<!-- /.content-wrapper -->
+
+        </section>
+    </div>
+    <!-- /.content-wrapper -->
 
     <!--footer--!>
 	  <jsp:include page="footer.jsp"></jsp:include>
@@ -191,6 +139,7 @@
 <script src="${pageContext.request.contextPath}/plugins/jquery/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="${pageContext.request.contextPath}/plugins/jquery-ui/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="//apps.bdimg.com/libs/jqueryui/1.10.4/css/jquery-ui.min.css">
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
     $.widget.bridge('uibutton', $.ui.button)
@@ -229,6 +178,9 @@
         //向服务器发送请求，改变每页显示条数
         location.href='${pageContext.request.contextPath}/order/findAll.do?page=1&size='+size;
     }
+    $(function () {
+        $('#timepicker').datepicker({dateFormat: "yy-mm-dd"});
+    })
 </script>
 </body>
 </html>

@@ -1,10 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c"  %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 	<html>
 	<head>
 	  <meta charset="utf-8">
 	  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-	  <title>AdminLTE 3 | Dashboard</title>
+	  <title>产品管理</title>
 	  <!-- Tell the browser to be responsive to screen width -->
 	  <meta name="viewport" content="width=device-width, initial-scale=1">
 	  <!-- Font Awesome -->
@@ -49,7 +50,7 @@
 		            <div class="col-sm-6">
 		              <ol class="breadcrumb float-sm-right">
 		                <li class="breadcrumb-item"><a href="index.jsp">首页</a></li>
-		                <li class="breadcrumb-item"><a href="#">产品管理</a></li>
+		                <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/product/findAll.do">产品管理</a></li>
 		              </ol>
 		            </div><!-- /.col -->
 		        </div><!-- /.row -->
@@ -72,68 +73,93 @@
               </div>
               <!-- /.card-header -->
 			  <!-- 工具栏 -->
+			  <!-- 只有具有ADMIN角色的用户才可以看到该部分内容，才可以进行产品的添加 -->
+			  <security:authorize access="hasRole('ADMIN')">
 			   <div>    
 			        <div class="form-group form-inline">     
 			            <div class="btn-group">
 			                <button type="button" class="btn btn-default" title= "新建" onclick="window.location.href='${pageContext.request.contextPath}/product/toPage_ProductAdd.do'">
 			                    <i class="fa fa-file-o"></i> 新建                               
 			      		   </button>
-						   <button type="button" class="btn btn-default" title= "删除">
-						       <i class="fa"></i> 删除        
-						   </button>
-			                <button type="button" class="btn btn-default" title= "刷新">        
+			                <button type="button" class="btn btn-default" title= "刷新" onclick="window.location.reload()">
 			                    <i class="fa fa-refresh"></i> 刷新        
 			                </button> 
 			            </div>
 			        </div> 
-			  </div>             
+			  </div>
+				</security:authorize>
 			  <!--工具栏/-->
               <div class="card-body p-0">
                 <div class="table-responsive">
-                  <table class="table m-0">
-                    <thead>
-                    <tr>
-						<th></th>
-                      <th>ID</th>
-                      <th>产品编号</th>
-                      <th>产品名称</th>
-                      <th>出发城市</th>
-					  <th>出发时间</th>
-					  <th>产品价格</th>
-					  <th>产品状态</th>
-						<th>操作</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-					<c:forEach items="${productList}" var="product">
-						<tr>
-							<td><input name="ids" type="checkbox"></td>
-							<td>${product.id}</td>
-							<td>${product.productNum}</td>
-							<td>${product.productName}</td>
-							<td>${product.cityName}</td>
-							<td>${product.departureTimeStr}</td>
-							<td>${product.productPrice}</td>
-							<td>${product.productStatusStr}</td>
-							<td>
-								<button type="button" class="btn bg-olive btn-xs" onclick='location.href="all-order-manage-edit.html"'>详情</button>
-								<button type="button" class="btn bg-olive btn-xs" onclick='location.href="all-order-manage-edit.html"'>编辑</button>
-							</td>
-						</tr>
-					</c:forEach>
-                    </tbody>
-                  </table>
+					<form action="${pageContext.request.contextPath}/product/deleteManyProducts.do" method="post">
+						<table class="table m-0">
+							<thead>
+							<tr>
+								<th tyle="padding-right: 0px"><input type="checkbox" name="checkAll"/></th>
+								<th>ID</th>
+								<th>产品编号</th>
+								<th>产品名称</th>
+								<th>出发城市</th>
+								<th>出发时间</th>
+								<th>产品价格</th>
+								<th>产品状态</th>
+								<th>操作</th>
+							</tr>
+							</thead>
+							<tbody>
+							<c:forEach items="${pageInfo.list}" var="product">
+								<tr>
+									<td><input type="checkbox" name="checkItemTd" value="${product.id}"/></td>
+									<td>${product.id}</td>
+									<td>${product.productNum}</td>
+									<td>${product.productName}</td>
+									<td>${product.cityName}</td>
+									<td>${product.departureTimeStr}</td>
+									<td>${product.productPrice}</td>
+									<td>${product.productStatusStr}</td>
+									<td>
+										<button type="button" class="btn bg-olive btn-xs" onclick='location.href="${pageContext.request.contextPath}/product/deleteOneProduct.do?id=${product.id}"'>删除产品</button>
+										<button type="button" class="btn bg-olive btn-xs" onclick='location.href="${pageContext.request.contextPath}/product/toPage_ProductEdit.do?id=${product.id}"'>编辑</button>
+									</td>
+								</tr>
+							</c:forEach>
+							</tbody>
+						</table>
+						<div class="card-footer clearfix">
+							<input type="submit" value="删除" class="btn btn-sm btn-info float-left"/>
+						</div>
+					</form>
                 </div>
                 <!-- /.table-responsive -->
               </div>
-              <!-- /.card-body -->
-              <div class="card-footer clearfix">
-                <a href="javascript:void(0)" class="btn btn-sm btn-info float-left">Place New Order</a>
-                <a href="javascript:void(0)" class="btn btn-sm btn-secondary float-right">View All Orders</a>
-              </div>
-              <!-- /.card-footer -->
-            </div>
-			
+			  <div class="card-footer">
+					<div class="mt-3 d-inline-block" >
+						<span>总共${pageInfo.pages}页，共${pageInfo.total}条数据，每页</span>
+						<div class="form-group d-inline">
+							<select class="rounded-sm bg-light" style="max-width: 200px;" onchange="changePageSize()" id="changePageSize">
+								<option>--请选择条数--</option>
+								<option selected>${pageInfo.pageSize}</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+								<option value="7">7</option>
+							</select>
+						</div>
+						<span>条</span>
+					</div>
+					<div class="btn-group float-right mt-3">
+						<button type="button" class="btn btn-sm btn-default" onclick="location.href='${pageContext.request.contextPath}/product/findAll.do?page=1&size=${pageInfo.pageSize}'">首页</button>
+						<button type="button" class="btn btn-sm btn-default" onclick="location.href='${pageContext.request.contextPath}/product/findAll.do?page=${pageInfo.pageNum-1}&size=${pageInfo.pageSize}'">上一页</button>
+						<c:forEach begin="1" end="${pageInfo.pages}" var="num">
+							<button type="button" class="btn btn-sm btn-default" onclick="location.href='${pageContext.request.contextPath}/product/findAll.do?page=${num}&size=${pageInfo.pageSize}'">${num}</button>
+						</c:forEach>
+						<button type="button" class="btn btn-sm btn-default" onclick="location.href='${pageContext.request.contextPath}/product/findAll.do?page=${pageInfo.pageNum+1}&size=${pageInfo.pageSize}'">下一页</button>
+						<button type="button" class="btn btn-sm btn-default" onclick="location.href='${pageContext.request.contextPath}/product/findAll.do?page=${pageInfo.pages}&size=${pageInfo.pageSize}'">尾页</button>
+					</div>
+				</div>
+			 </div>
+			<!-- /.card-footer -->
 		</section>
 	  </div>
 	  <!-- /.content-wrapper -->
@@ -148,9 +174,13 @@
 	  <!-- /.control-sidebar -->
 	</div>
 	<!-- ./wrapper -->
-	
+
+
 	<!-- jQuery -->
 	<script src="${pageContext.request.contextPath}/plugins/jquery/jquery.min.js"></script>
+	<script src="${pageContext.request.contextPath}/js/script.js"></script>
+	<!-- JS -->
+	<script src="${pageContext.request.contextPath}/js/script.js"></script>
 	<!-- jQuery UI 1.11.4 -->
 	<script src="${pageContext.request.contextPath}/plugins/jquery-ui/jquery-ui.min.js"></script>
 	<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
@@ -183,6 +213,15 @@
 	<script src="${pageContext.request.contextPath}/js/pages/dashboard.js"></script>
 	<!-- AdminLTE for demo purposes -->
 	<script src="${pageContext.request.contextPath}/js/demo.js"></script>
+	<script>
+        //分页：根据选择“每页数据条数”显示数据
+        function changePageSize() {
+            //获取下拉列表的值
+            var size=$("#changePageSize").val();
+            //向服务器发送请求，改变每页显示条数
+            location.href='${pageContext.request.contextPath}/product/findAll.do?page=1&size='+size;
+        }
+	</script>
 	</body>
 	</html>
 

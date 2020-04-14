@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
@@ -14,7 +15,9 @@
                 <img src="${pageContext.request.contextPath}/img/avatar2.png" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">Alexander</a>
+                <span class="d-block text-white">
+                    <security:authentication property="principal.username"></security:authentication>
+                </span>
             </div>
         </div>
 
@@ -39,28 +42,28 @@
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
-                    <ul class="nav nav-treeview">
+                    <ul class="nav nav-treeview ml-2">
                         <li class="nav-item">
-                            <a href="pages/forms/general.html" class="nav-link">
+                            <a href="${pageContext.request.contextPath}/user/findAll.do" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>产品管理</p>
+                                <p>用户管理</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="pages/forms/advanced.html" class="nav-link">
+                            <a href="${pageContext.request.contextPath}/role/findAll.do" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>角色管理</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="pages/forms/editors.html" class="nav-link">
+                            <a href="${pageContext.request.contextPath}/permission/findAll.do" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>资源权限管理</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="pages/forms/validation.html" class="nav-link">
-                                <i class="fa fa-cube nav-icon"></i>
+                            <a href="${pageContext.request.contextPath}/sysLog/findAll.do?page=1&size=5" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
                                 <p>访问日志</p>
                             </a>
                         </li>
@@ -74,9 +77,9 @@
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
-                    <ul class="nav nav-treeview">
+                    <ul class="nav nav-treeview ml-2">
                         <li class="nav-item">
-                            <a href="${pageContext.request.contextPath}/product/findAll.do" class="nav-link">
+                            <a href="${pageContext.request.contextPath}/product/findAll.do?page=1&size=4" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>产品管理</p>
                             </a>

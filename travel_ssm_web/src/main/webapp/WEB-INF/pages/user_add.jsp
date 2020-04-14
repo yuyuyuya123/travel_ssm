@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>添加产品</title>
+    <title>用户添加</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Font Awesome -->
@@ -46,12 +46,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0 text-dark">产品管理</h1>
+                        <h1 class="m-0 text-dark">用户管理</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/index/toPage_Index.do">首页</a></li>
-                            <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/product/findAll.do">产品管理</a></li>
+                            <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/user/findAll.do">用户管理</a></li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -62,67 +62,46 @@
             <div class="card card-info">
                 <!-- card-header -->
                 <div class="card-header">
-                    <h3 class="card-title">产品信息</h3>
+                    <h3 class="card-title">用户信息</h3>
                 </div>
                 <!-- form -->
-                <form role="form" action="${pageContext.request.contextPath}/product/insertOneProduct.do">
+                <form role="form" action="${pageContext.request.contextPath}/user/insertOneUser.do">
                     <!-- card-body -->
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label>产品编号</label>
-                                    <input type="text" class="form-control" placeholder="Enter ..." name="productNum" required>
+                                    <label>用户名</label>
+                                    <input type="text" class="form-control" placeholder="Enter ..." name="username" required>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label>产品名称</label>
-                                    <input type="text" class="form-control" placeholder="Enter ..." name="productName" required>
+                                    <label>密码</label>
+                                    <input type="password" class="form-control" placeholder="Enter ..." name="password" required>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label>出发城市</label>
-                                    <input type="text" class="form-control" placeholder="Enter ..." name="cityName" required>
+                                    <label>手机号码</label>
+                                    <input type="text" class="form-control" placeholder="Enter ..." name="phoneNum" required>
                                 </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label>出发时间</label>
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="far fa-clock"></i></span>
-                                        </div>
-                                        <input type="text" class="form-control float-right" id="timepicker" name="departureTime" required>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>邮箱</label>
+                                        <input type="email" class="form-control" placeholder="Enter ..." name="email" required>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label>产品价格</label>
-                                    <input type="text" class="form-control" placeholder="Enter ..." name="productPrice" required>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6">
                                 <div class="form-group" data-select2-id="52">
-                                    <label>产品状态</label>
-                                    <select class="form-control select2 select2-danger select2-hidden-accessible" data-dropdown-css-class="select2-danger" style="width: 100%;" data-select2-id="12" tabindex="-1" aria-hidden="true" name="productStatus">
+                                    <label>状态</label>
+                                    <select class="form-control select2 select2-danger select2-hidden-accessible" data-dropdown-css-class="select2-danger" style="width: 100%;" data-select2-id="12" tabindex="-1" aria-hidden="true" name="Status">
                                         <option value="0" selected="selected" data-select2-id="14">关闭</option>
                                         <option value="1" data-select2-id="56">开启</option>
                                     </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label>其他信息</label>
-                                    <textarea class="form-control" rows="3" placeholder="Enter ..." name="productDesc"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -187,11 +166,7 @@
 <script src="${pageContext.request.contextPath}/js/demo.js"></script>
 <!-- jquery ui -->
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script>
-    $(function () {
-        $('#timepicker').datepicker({dateFormat: "yy-mm-dd"});
-    })
-</script>
+
 </body>
 </html>
 

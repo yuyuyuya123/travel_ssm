@@ -62,6 +62,11 @@ public class UserInfo {
     }
 
     public String getStatusStr() {
+        if (status==0){
+            statusStr="关闭";
+        }else {
+            statusStr="开启";
+        }
         return statusStr;
     }
 
@@ -76,5 +81,6 @@ public class UserInfo {
     public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
+
 }
 
