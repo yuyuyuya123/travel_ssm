@@ -69,10 +69,6 @@
         
       </div>
       
-      <p class="mb-1">
-        <a href="forgot-password.html">忘记密码</a>
-      </p>
-      
     </div>
     <!-- /.login-card-body -->
   </div>
