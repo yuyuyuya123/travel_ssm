@@ -1,10 +1,15 @@
 # travel_ssm
-旅游后台管理系统
+**旅游后台管理系统。新手项目，SSM，AdminLTE，spring security**
+
+# 使用须知
+前端框架使用的AdminLTE，因静态资源文件比较多，上传耗费时间，因此没有上传。
+需要前去 https://github.com/ColorlibHQ/AdminLTE/releases/tag/v3.0.3 下载，并将dist文件夹的css、js、img文件夹下的文件复制到该项目的对应文件夹下，并将plugins文件夹下的所有文件复制到对应文件夹下。其余代码均完整。
+即：该项目webapp下需要导入的文件包括四方面，img、css、js、plugins。
 
 # 环境及框架
 - jdk1.8
 - tomcat8.5
-- mysql8
+- oracle11.2.0.1.0
 - spring5.0.2
 - mybatis3.4.5
 - spring security 5.0.1
